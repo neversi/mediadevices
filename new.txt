@@ -1,0 +1,21 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/pion/mediadevices/pkg/io/video
+BenchmarkToI420/480p/I444-8    	   11119	    111286 ns/op	      72 B/op	       2 allocs/op
+BenchmarkToI420/480p/I444-8    	   10000	    108665 ns/op	      74 B/op	       2 allocs/op
+BenchmarkToI420/480p/I422-8    	   23026	     54871 ns/op	      56 B/op	       2 allocs/op
+BenchmarkToI420/480p/I422-8    	   22246	     51758 ns/op	      56 B/op	       2 allocs/op
+BenchmarkToI420/480p/I420-8    	100000000	        12.19 ns/op	       0 B/op	       0 allocs/op
+BenchmarkToI420/480p/I420-8    	91341578	        12.86 ns/op	       0 B/op	       0 allocs/op
+BenchmarkToI420/480p/RGBA-8    	    4154	    312682 ns/op	     350 B/op	       2 allocs/op
+BenchmarkToI420/480p/RGBA-8    	    4502	    274273 ns/op	     367 B/op	       2 allocs/op
+BenchmarkToI420/1080p/I444-8   	    2067	    608559 ns/op	      56 B/op	       2 allocs/op
+BenchmarkToI420/1080p/I444-8   	    2010	    597442 ns/op	     574 B/op	       2 allocs/op
+BenchmarkToI420/1080p/I422-8   	    3952	    298084 ns/op	     319 B/op	       2 allocs/op
+BenchmarkToI420/1080p/I422-8   	    3369	    304340 ns/op	      56 B/op	       2 allocs/op
+BenchmarkToI420/1080p/I420-8   	99994791	        11.94 ns/op	       0 B/op	       0 allocs/op
+BenchmarkToI420/1080p/I420-8   	96132015	        12.01 ns/op	       0 B/op	       0 allocs/op
+BenchmarkToI420/1080p/RGBA-8   	     744	   1652358 ns/op	   11222 B/op	       2 allocs/op
+BenchmarkToI420/1080p/RGBA-8   	     726	   1614778 ns/op	   10066 B/op	       2 allocs/op
+PASS
+ok  	github.com/pion/mediadevices/pkg/io/video	21.819s
