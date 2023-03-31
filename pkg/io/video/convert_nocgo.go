@@ -15,7 +15,7 @@ func i444ToI420(img image.YCbCr, dst []uint8) image.YCbCr {
 	h := img.Rect.Dy()
 	addrSrc0 := 0
 	addrSrc1 := img.CStride
-	cLen := img.CStride * (h / 2)
+	cLen := img.CStride * (h / 4)
 	addrDst := 0
 	// Divide preallocated memory to cbDst and crDst
 	// and truncate cap and len to cLen
@@ -32,19 +32,23 @@ func i444ToI420(img image.YCbCr, dst []uint8) image.YCbCr {
 			// cb := uint16(img.Cb[addrSrc0]) + uint16(img.Cb[addrSrc1]) +
 			// 	uint16(img.Cb[addrSrc0+1]) + uint16(img.Cb[addrSrc1+1])
 
-			srcCbPtr1 := (*uint8)((unsafe.Pointer)(cbSrcAddr + addrSrc0))
-			srcCbPtr2 := (*uint8)((unsafe.Pointer)(cbSrcAddr + addrSrc1))
-			dstCbPtr := (*uint8)((unsafe.Pointer)(cbDstAddr + addrDst))
+			srcCbPtr1 := (*uint8)((unsafe.Pointer)(cbSrcAddr + uintptr(addrSrc0)))
+			srcCbPtr2 := (*uint8)((unsafe.Pointer)(cbSrcAddr + uintptr(addrSrc0+1)))
+			srcCbPtr3 := (*uint8)((unsafe.Pointer)(cbSrcAddr + uintptr(addrSrc1)))
+			srcCbPtr4 := (*uint8)((unsafe.Pointer)(cbSrcAddr + uintptr(addrSrc1+1)))
+			dstCbPtr := (*uint8)((unsafe.Pointer)(cbDstAddr + uintptr(addrDst)))
 
-			*dstCbPtr = uint8((uint16(*srcCbPtr1) + uint16(*srcCbPtr2) + uint16(*(srcCbPtr1 + 1)) + uint16(*(srcCbPtr2 + 1))) / 4)
+			*dstCbPtr = uint8((uint16(*srcCbPtr1) + uint16(*srcCbPtr2) + uint16(*(srcCbPtr3)) + uint16(*(srcCbPtr4))) / 4)
 
 			// cr := uint16(img.Cr[addrSrc0]) + uint16(img.Cr[addrSrc1]) +
 			// 	uint16(img.Cr[addrSrc0+1]) + uint16(img.Cr[addrSrc1+1])
-			srcCrPtr1 := (*uint8)((unsafe.Pointer)(crSrcAddr + addrSrc0))
-			srcCrPtr2 := (*uint8)((unsafe.Pointer)(crSrcAddr + addrSrc1))
-			dstCrPtr := (*uint8)((unsafe.Pointer)(crDstAddr + addrDst))
+			srcCrPtr1 := (*uint8)((unsafe.Pointer)(crSrcAddr + uintptr(addrSrc0)))
+			srcCrPtr2 := (*uint8)((unsafe.Pointer)(crSrcAddr + uintptr(addrSrc0+1)))
+			srcCrPtr3 := (*uint8)((unsafe.Pointer)(crSrcAddr + uintptr(addrSrc1)))
+			srcCrPtr4 := (*uint8)((unsafe.Pointer)(crSrcAddr + uintptr(addrSrc1+1)))
+			dstCrPtr := (*uint8)((unsafe.Pointer)(crDstAddr + uintptr(addrDst)))
 
-			*dstCrPtr = uint8((uint16(*srcCrPtr1) + uint16(*srcCrPtr2) + uint16(*(srcCrPtr1 + 1)) + uint16(*(srcCrPtr2 + 1))) / 4)
+			*dstCrPtr = uint8((uint16(*srcCrPtr1) + uint16(*srcCrPtr2) + uint16(*(srcCrPtr3)) + uint16(*(srcCrPtr4))) / 4)
 			// cbDst[addrDst] = uint8(cb / 4)
 			// crDst[addrDst] = uint8(cr / 4)
 			addrSrc0 += 2
